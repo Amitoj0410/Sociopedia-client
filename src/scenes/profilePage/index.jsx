@@ -7,7 +7,6 @@ import FriendsListWidget from "scenes/widgets/FriendListWidget";
 import MyPostWidget from "scenes/widgets/MyPostWidget";
 import PostsWidget from "scenes/widgets/PostsWidget";
 import UserWidget from "scenes/widgets/UserWidget";
-import React from "react";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
