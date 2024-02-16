@@ -43,7 +43,8 @@ const FriendsListWidget = ({ userId }) => {
         {Array.isArray(friends) &&
           friends.map((friend) => (
             <Friend
-              key={friend._id}
+              // key={friend._id}
+              key={`${friend._id}`}
               friendId={friend._id}
               name={`${friend.firstName} ${friend.lastName}`}
               subtitle={friend.occupation}

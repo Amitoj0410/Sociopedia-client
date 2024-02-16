@@ -34,6 +34,11 @@ const loginSchema = yup.object().shape({
   password: yup.string().required("required"),
 });
 
+const forgotPasswordSchema = yup.object().shape({
+  email: yup.string().email("invalid email").required("required"),
+  otp: yup.string().required("required"),
+});
+
 const initialValuesRegister = {
   firstName: "",
   lastName: "",
@@ -49,6 +54,11 @@ const initialValuesLogin = {
   password: "",
 };
 
+const initialValuesForgotPassword = {
+  email: "",
+  otp: "",
+};
+
 const Form = () => {
   const [pageType, setPageType] = useState("login");
   const { palette } = useTheme();
@@ -57,9 +67,11 @@ const Form = () => {
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
+  const isForgotPassword = pageType === "forgotPassword";
 
   const [alert, setAlert] = useState("");
 
+  // const [otp, setOtp] = useState[""];
   const register = async (values, onSubmitProps) => {
     // this allows us to send form info with image
     const formData = new FormData();
@@ -81,9 +93,9 @@ const Form = () => {
 
     if (!savedUser.msg) {
       setPageType("login");
-      console.log("User Saved");
+      // console.log("User Saved");
     } else {
-      console.error("Error : User not Saved");
+      // console.error("Error : User not Saved");
       setAlert(savedUser.msg);
     }
   };
@@ -109,9 +121,37 @@ const Form = () => {
         })
       );
       navigate("/home");
-      console.log("Login Success");
+      // console.log("Login Success");
     } else {
-      console.error(loggedIn.msg);
+      // console.error(loggedIn.msg);
+      setAlert(loggedIn.msg);
+    }
+  };
+
+  const forgotPassword = async (values, onSubmitProps) => {
+    const loggedInResponse = await fetch(
+      "https://socialpedia-serverr.onrender.com/auth/login",
+      {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(values),
+      }
+    );
+    const loggedIn = await loggedInResponse.json();
+    onSubmitProps.resetForm();
+    // console.log(loggedIn.user);
+    if (loggedIn.user && loggedIn.token) {
+      //   console.log("yaha tak reached");
+      dispatch(
+        setLogin({
+          user: loggedIn.user,
+          token: loggedIn.token,
+        })
+      );
+      navigate("/home");
+      // console.log("Login Success");
+    } else {
+      // console.error(loggedIn.msg);
       setAlert(loggedIn.msg);
     }
   };
@@ -119,13 +159,39 @@ const Form = () => {
   const handleFormSubmit = async (values, onSubmitProps) => {
     if (isLogin) await login(values, onSubmitProps);
     if (isRegister) await register(values, onSubmitProps);
+    if (isForgotPassword) await forgotPassword(values, onSubmitProps);
   };
+
+  // const handleSendOTP = async () => {
+  //   const response = await fetch(`https://socialpedia-serverr.onrender.com/auth/forgotPassword`, {
+  //     method: "POST",
+  //     body: {
+  //       email: JSON.stringify(values.email),
+  //     },
+  //   });
+  //   const res = await response.json();
+  //   console.log(res);
+  // };
 
   return (
     <Formik
       onSubmit={handleFormSubmit}
-      initialValues={isLogin ? initialValuesLogin : initialValuesRegister}
-      validationSchema={isLogin ? loginSchema : registerSchema}
+      // initialValues={isLogin ? initialValuesLogin : initialValuesRegister}
+      initialValues={
+        isLogin
+          ? initialValuesLogin
+          : isForgotPassword
+          ? initialValuesForgotPassword
+          : initialValuesRegister
+      }
+      // validationSchema={isLogin ? loginSchema : registerSchema}
+      validationSchema={
+        isLogin
+          ? loginSchema
+          : isForgotPassword
+          ? forgotPasswordSchema
+          : registerSchema
+      }
     >
       {/* Funky syntax ahead :| */}
       {({
@@ -228,27 +294,62 @@ const Form = () => {
                 </Box>
               </>
             )}
-            <TextField
-              label="Email"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              value={values.email}
-              name="email"
-              error={Boolean(touched.email) && Boolean(errors.email)}
-              helperText={touched.email && errors.email}
-              sx={{ gridColumn: "span 4" }}
-            />
-            <TextField
-              label="Password"
-              type="password"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              value={values.password}
-              name="password"
-              error={Boolean(touched.password) && Boolean(errors.password)}
-              helperText={touched.password && errors.password}
-              sx={{ gridColumn: "span 4" }}
-            />
+            {(isRegister || isLogin || isForgotPassword) && (
+              <>
+                <TextField
+                  label="Email"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.email}
+                  name="email"
+                  error={Boolean(touched.email) && Boolean(errors.email)}
+                  helperText={touched.email && errors.email}
+                  // sx={{ gridColumn: "span 4" }}
+                  sx={{ gridColumn: isForgotPassword ? "span 3" : "span 4" }}
+                />
+                {isForgotPassword && (
+                  <>
+                    <Button
+                      fullWidth
+                      type="submit"
+                      sx={{
+                        p: "1rem",
+                        backgroundColor: palette.primary.main,
+                        color: palette.background.alt,
+                        "&:hover": { color: palette.primary.main },
+                        gridColumn: "span 1",
+                      }}
+                      // onClick={handleSendOTP}
+                    >
+                      SEND OTP
+                    </Button>
+                    <TextField
+                      label="Enter OTP"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      value={values.otp}
+                      name="otp"
+                      error={Boolean(touched.otp) && Boolean(errors.otp)}
+                      helperText={touched.otp && errors.otp}
+                      sx={{ gridColumn: "span 4" }}
+                    />
+                  </>
+                )}
+              </>
+            )}
+            {(isLogin || isRegister) && (
+              <TextField
+                label="Password"
+                type="password"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.password}
+                name="password"
+                error={Boolean(touched.password) && Boolean(errors.password)}
+                helperText={touched.password && errors.password}
+                sx={{ gridColumn: "span 4" }}
+              />
+            )}
           </Box>
 
           {/* ALERT */}
@@ -289,7 +390,10 @@ const Form = () => {
                 "&:hover": { color: palette.primary.main },
               }}
             >
-              {isLogin ? "LOGIN" : "REGISTER"}
+              {/* {isLogin ? "LOGIN" : "REGISTER"} */}
+              {isLogin && "LOGIN"}
+              {isRegister && "REGISTER"}
+              {isForgotPassword && "SUBMIT OTP"}
             </Button>
             <Typography
               onClick={() => {
@@ -309,6 +413,25 @@ const Form = () => {
               {isLogin
                 ? "Dont have an account sign up here."
                 : "Already have an account? Login here"}
+            </Typography>
+
+            {/* FOR FORGOT PASSWORD */}
+            <Typography
+              onClick={() => {
+                setPageType("forgotPassword");
+                setAlert("");
+                resetForm();
+              }}
+              sx={{
+                textDecoration: "underline",
+                color: palette.primary.main,
+                "&:hover": {
+                  cursor: "pointer",
+                  color: palette.primary.light,
+                },
+              }}
+            >
+              Forgot Password
             </Typography>
           </Box>
         </form>

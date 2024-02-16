@@ -108,7 +108,7 @@ const PostWidget = ({
   };
 
   const handleInstagramShare = () => {
-    console.log("hello");
+    // console.log("hello");
     // const shareableLink = `https://socialpedia-serverr.onrender.com/assets/${encodeURIComponent(
     //   picturePath
     // )}`;

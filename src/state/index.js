@@ -4,6 +4,7 @@ const initialState = {
   mode: "light",
   user: null,
   token: null,
+  opt: null, // new
   posts: [],
 };
 
@@ -39,9 +40,24 @@ export const authSlice = createSlice({
       });
       state.posts = updatedPost;
     },
+    setOtp: (state, action) => {
+      //new
+      state.otp = action.payload.otp;
+    },
+    setUser: (state, action) => {
+      state.user = action.payload.user;
+    },
   },
 });
 
-export const { setMode, setLogin, setLogout, setFriends, setPosts, setPost } =
-  authSlice.actions;
+export const {
+  setMode,
+  setLogin,
+  setLogout,
+  setFriends,
+  setPosts,
+  setPost,
+  setOtp,
+  setUser,
+} = authSlice.actions;
 export default authSlice.reducer;

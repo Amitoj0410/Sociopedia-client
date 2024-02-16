@@ -1,10 +1,8 @@
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
 import Form from "./Form";
-import { useNavigate } from "react-router-dom";
 
-const LoginPage = () => {
+const ResetPasswordPage = () => {
   const theme = useTheme();
-  const navigate = useNavigate();
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
   return (
@@ -15,20 +13,7 @@ const LoginPage = () => {
         p="1rem 6%"
         textAlign="center"
       >
-        <Typography
-          fontWeight="bold"
-          fontSize="32px"
-          color="primary"
-          sx={{
-            "&:hover": {
-              cursor: "pointer",
-              color: theme.palette.primary.light,
-            },
-          }}
-          onClick={() => {
-            navigate("/");
-          }}
-        >
+        <Typography fontWeight="bold" fontSize="32px" color="primary">
           Sociopedia
         </Typography>
       </Box>
@@ -50,4 +35,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default ResetPasswordPage;

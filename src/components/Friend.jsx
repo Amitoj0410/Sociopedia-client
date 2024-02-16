@@ -35,7 +35,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath, postId }) => {
     ? friends.find((friend) => friend._id === friendId)
     : undefined;
 
-  console.log(isFriend);
+  // console.log(isFriend);
   const handleMoreIconClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -71,7 +71,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath, postId }) => {
     );
     const posts = await response.json();
     dispatch(setPosts({ posts }));
-    console.log(posts);
+    // console.log(posts);
   };
 
   return (
