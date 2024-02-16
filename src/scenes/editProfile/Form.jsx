@@ -43,7 +43,7 @@ const Form = () => {
     // email: "",
     location: user.location,
     occupation: user.occupation,
-    picture: "",
+    picture: "", //changed at 1:34PM 16 Feb 2024
   };
 
   const saveChanges = async (values, onSubmitProps) => {
@@ -55,7 +55,7 @@ const Form = () => {
     formData.append("lastName", values.lastName);
     formData.append("location", values.location);
     formData.append("occupation", values.occupation);
-    formData.append("picturePath", values.picture.name);
+    formData.append("picturePath", values.picture.name); // changed at 1:39 pm same day
 
     // Append the picture file if it exists
     // if (values.picturePath) {
