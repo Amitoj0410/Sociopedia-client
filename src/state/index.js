@@ -4,7 +4,7 @@ const initialState = {
   mode: "light",
   user: null,
   token: null,
-  opt: null, // new
+  otp: null, // new
   posts: [],
 };
 
@@ -47,6 +47,12 @@ export const authSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload.user;
     },
+    setToken: (state, action) => {
+      state.token = action.payload.token;
+    },
+    clearToken: (state) => {
+      state.token = null;
+    },
   },
 });
 
@@ -59,5 +65,7 @@ export const {
   setPost,
   setOtp,
   setUser,
+  setToken,
+  clearToken,
 } = authSlice.actions;
 export default authSlice.reducer;

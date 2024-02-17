@@ -2,17 +2,42 @@ import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 import HomePage from "scenes/homePage"; //Code written in jsconfig.json actually helps here as we dont need to write './scenes/... or ../../scenes'
 import LoginPage from "scenes/loginPage";
 import ProfilePage from "scenes/profilePage";
-import { useMemo } from "react";
-import { useSelector } from "react-redux";
+import { useMemo, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "theme";
 import EditProfilePage from "scenes/editProfile";
+import { clearToken } from "state";
+import { jwtDecode } from "jwt-decode";
 
 function App() {
+  const dispatch = useDispatch();
   const mode = useSelector((state) => state.mode);
+  const token = useSelector((state) => state.token);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-  const isAuth = Boolean(useSelector((state) => state.token));
+  const isAuth = Boolean(token);
+
+  // Check token expiration on component mount and update Redux state accordingly
+  useEffect(() => {
+    const checkTokenExpiration = () => {
+      const currentTime = Math.floor(new Date().getTime() / 1000); // Convert milliseconds to seconds
+      const tokenExp = token ? jwtDecode(token).exp : null;
+
+      if (tokenExp && tokenExp < currentTime) {
+        // Token has expired
+        dispatch(clearToken());
+      }
+    };
+
+    checkTokenExpiration();
+
+    // Set up an interval to periodically check token expiration
+    const intervalId = setInterval(checkTokenExpiration, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [dispatch, token]);
+
   return (
     <div className="app">
       <BrowserRouter>
