@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 import HomePage from "scenes/homePage"; //Code written in jsconfig.json actually helps here as we dont need to write './scenes/... or ../../scenes'
 import LoginPage from "scenes/loginPage";
 import ProfilePage from "scenes/profilePage";
+import SearchPage from "scenes/searchPage";
 import { useMemo, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { CssBaseline, ThemeProvider } from "@mui/material";
@@ -56,6 +57,10 @@ function App() {
             <Route
               path="/profile/edit"
               element={isAuth ? <EditProfilePage /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/search"
+              element={isAuth ? <SearchPage /> : <Navigate to="/" />}
             />
           </Routes>
         </ThemeProvider>

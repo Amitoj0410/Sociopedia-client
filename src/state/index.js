@@ -6,6 +6,12 @@ const initialState = {
   token: null,
   otp: null, // new
   posts: [],
+  searchType: "people",
+  searchValue: "",
+  searchResults: {
+    people: [],
+    posts: [],
+  },
 };
 
 export const authSlice = createSlice({
@@ -53,6 +59,15 @@ export const authSlice = createSlice({
     clearToken: (state) => {
       state.token = null;
     },
+    setSearchType: (state, action) => {
+      state.searchType = action.payload;
+    },
+    setSearchValue: (state, action) => {
+      state.searchValue = action.payload;
+    },
+    setSearchResults: (state, action) => {
+      state.searchResults = action.payload;
+    },
   },
 });
 
@@ -67,5 +82,8 @@ export const {
   setUser,
   setToken,
   clearToken,
+  setSearchType,
+  setSearchValue,
+  setSearchResults,
 } = authSlice.actions;
 export default authSlice.reducer;

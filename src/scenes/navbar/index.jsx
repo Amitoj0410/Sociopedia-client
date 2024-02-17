@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   IconButton,
@@ -21,16 +21,21 @@ import {
   Close,
 } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { setMode, setLogout } from "state";
+import { setMode, setLogout, setSearchType } from "state";
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
 // import { red } from "@mui/material/colors";
+// import SearchPage from "scenes/searchPage";
+// import { setSearchType, setSearchValue } from "state";
+import { setSearchValue } from "state";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
+  const searchValue = useSelector((state) => state.searchValue);
+
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
   const theme = useTheme();
@@ -39,7 +44,7 @@ const Navbar = () => {
   const background = theme.palette.background.default;
   const primaryLight = theme.palette.primary.light;
   const alt = theme.palette.background.alt;
-
+  const [searchInput, setSearchInput] = useState("");
   // let fullName = ``;
   // if (user) {
   //   fullName = `${user.firstName} ${user.lastName}`;
@@ -47,6 +52,18 @@ const Navbar = () => {
   // fullName = `${user.firstName} ${user.lastName}`; // const fullName = `${user.firstName} ${user.lastName}`
 
   const fullName = `${user.firstName} ${user.lastName}`;
+
+  const handleSearch = async () => {
+    dispatch(setSearchValue(searchInput));
+    dispatch(setSearchType("people"));
+    // console.log(abc);
+
+    navigate("/search");
+    // navigate(0);
+  };
+  // useEffect(() => {
+  //   console.log(searchValue);
+  // }, [searchValue]);
 
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>
@@ -72,8 +89,20 @@ const Navbar = () => {
             gap="3rem"
             padding="0.1rem 1.5rem"
           >
-            <InputBase placeholder="Search..." />
-            <IconButton>
+            <InputBase
+              placeholder="Search..."
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch();
+                }
+              }}
+              // onChange={(e) =>
+              //   setSearchInput((prevSearchInput) => e.target.value)
+              // }
+            />
+            <IconButton onClick={handleSearch}>
               <Search />
             </IconButton>
           </FlexBetween>
