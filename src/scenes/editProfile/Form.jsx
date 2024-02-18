@@ -47,10 +47,10 @@ const Form = () => {
   };
 
   const saveChanges = async (values, onSubmitProps) => {
-    console.log("hello");
+    // console.log("hello");
     const formData = new FormData();
-    console.log(values.firstName);
-    console.log(values.lastName);
+    // console.log(values.firstName);
+    // console.log(values.lastName);
     formData.append("firstName", values.firstName);
     formData.append("lastName", values.lastName);
     formData.append("location", values.location);
@@ -60,7 +60,7 @@ const Form = () => {
     // Append the picture file if it exists
     // if (values.picturePath) {
     // }
-    console.log(formData.get("firstName"));
+    // console.log(formData.get("firstName"));
     try {
       const savedChangesResponse = await fetch(
         `https://socialpedia-serverr.onrender.com/auth/${userId}/editProfile`,
@@ -74,7 +74,7 @@ const Form = () => {
       );
 
       const savedChanges2 = await savedChangesResponse.json();
-      console.log(savedChanges2);
+      // console.log(savedChanges2);
       if (savedChanges2.user) {
         dispatch(
           setUser({
@@ -82,13 +82,13 @@ const Form = () => {
           })
         );
         navigate("/home");
-        console.log("Profile Updated");
+        // console.log("Profile Updated");
       } else {
-        console.error(savedChanges2.msg);
+        // console.error(savedChanges2.msg);
         setAlert(savedChanges2.msg);
       }
     } catch (error) {
-      console.error("Error while saving changes:", error);
+      // console.error("Error while saving changes:", error);
       setAlert("Error while saving changes. Please try again.");
     }
 
@@ -99,7 +99,7 @@ const Form = () => {
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
-    console.log("hello");
+    // console.log("hello");
     await saveChanges(values, onSubmitProps);
   };
   return (

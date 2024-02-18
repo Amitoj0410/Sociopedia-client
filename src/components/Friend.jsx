@@ -29,8 +29,8 @@ const Friend = ({ friendId, name, subtitle, userPicturePath, postId }) => {
   const medium = palette.neutral.medium;
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  console.log(friendId);
-  console.log(name);
+  // console.log(friendId);
+  // console.log(name);
   // const isFriend = friends.find((friend) => friend._id === friendId);
   const isFriend = Array.isArray(friends)
     ? friends.find((friend) => friend._id === friendId)

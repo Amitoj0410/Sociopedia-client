@@ -102,11 +102,8 @@ const EditProfilePage = () => {
 
       if (!updatedUser.msg) {
         dispatch(setLogin({ user: updatedUser.user, token }));
-        console.log("Profile Updated");
-      } else {
-        console.error("Error: Profile not updated");
+        // console.log("Profile Updated");
       }
-
       onSubmitProps.resetForm();
     } catch (error) {
       console.error("Error:", error.message);

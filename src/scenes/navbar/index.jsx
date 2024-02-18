@@ -261,6 +261,29 @@ const Navbar = () => {
                 </MenuItem>
               </Select>
             </FormControl>
+            <FlexBetween
+              backgroundColor={neutralLight}
+              borderRadius="9px"
+              gap="3rem"
+              padding="0.1rem 1.5rem"
+            >
+              <InputBase
+                placeholder="Search..."
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSearch();
+                  }
+                }}
+                // onChange={(e) =>
+                //   setSearchInput((prevSearchInput) => e.target.value)
+                // }
+              />
+              <IconButton onClick={handleSearch}>
+                <Search />
+              </IconButton>
+            </FlexBetween>
           </FlexBetween>
         </Box>
       )}
