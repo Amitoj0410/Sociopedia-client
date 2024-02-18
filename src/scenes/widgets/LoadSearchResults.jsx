@@ -1,5 +1,5 @@
 import WidgetWrapper from "components/WidgetWrapper";
-import { Typography, useTheme, Box } from "@mui/material";
+import { Typography, useTheme, Box, Divider } from "@mui/material";
 import Friend from "components/Friend";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,10 +57,11 @@ const LoadSearchResults = ({ type, value }) => {
         color={palette.neutral.dark}
         variant="h5"
         fontWeight="500"
-        sx={{ mb: "1.5rem" }}
+        // sx={{ mb: "1.5rem" }}
       >
         Search Results
       </Typography>
+      <Divider sx={{ mb: "1rem" }} />
       {type === "people" && (
         <Box display="flex" flexDirection="column" gap="1.5rem">
           {Array.isArray(usersArray) && usersArray.length > 0 ? (

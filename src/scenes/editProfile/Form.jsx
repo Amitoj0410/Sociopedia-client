@@ -230,7 +230,7 @@ const Form = () => {
               fullWidth
               type="submit"
               sx={{
-                m: "2rem 0",
+                mt: "2rem",
                 p: "1rem",
                 backgroundColor: palette.primary.main,
                 color: palette.background.alt,
@@ -238,6 +238,22 @@ const Form = () => {
               }}
             >
               Save Changes
+            </Button>
+
+            <Button
+              fullWidth
+              sx={{
+                mt: "1rem",
+                p: "1rem",
+                backgroundColor: palette.neutral.main,
+                color: palette.background.alt,
+                "&:hover": { color: palette.primary.main },
+              }}
+              onClick={() => {
+                navigate("/home");
+              }}
+            >
+              Cancel
             </Button>
           </Box>
         </form>

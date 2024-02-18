@@ -152,6 +152,14 @@ const Navbar = () => {
 
               <MenuItem
                 onClick={() => {
+                  navigate("/profile/edit");
+                }}
+              >
+                <Typography>Profile</Typography>
+              </MenuItem>
+
+              <MenuItem
+                onClick={() => {
                   dispatch(setLogout());
                   navigate("/");
                 }}
@@ -233,6 +241,14 @@ const Navbar = () => {
               >
                 <MenuItem value={fullName}>
                   <Typography>{fullName}</Typography>
+                </MenuItem>
+
+                <MenuItem
+                  onClick={() => {
+                    navigate("/profile/edit");
+                  }}
+                >
+                  <Typography>Profile</Typography>
                 </MenuItem>
 
                 <MenuItem
