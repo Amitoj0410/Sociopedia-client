@@ -7,6 +7,7 @@ import {
   Close,
   WhatsApp,
   Instagram,
+  Send,
 } from "@mui/icons-material";
 
 import {
@@ -266,20 +267,43 @@ const PostWidget = ({
               </>
             ))}
           </List>
-          <TextField
-            sx={{ mt: "2rem" }}
-            label="Add a comment"
-            variant="outlined"
-            fullWidth
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            // onKeyPress={(e) => e.key === "Enter" && handleCommentSubmit()}
-            onKeyDown={(e) =>
-              e.key === "Enter" &&
-              newComment.length > 0 &&
-              handleCommentSubmit()
-            }
-          />
+          <Box display="flex">
+            <TextField
+              label="Add a comment"
+              fullWidth
+              variant="outlined"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              // onKeyPress={(e) => e.key === "Enter" && handleCommentSubmit()}
+              onKeyDown={(e) =>
+                e.key === "Enter" &&
+                newComment.length > 0 &&
+                handleCommentSubmit() &&
+                setNewComment("")
+              }
+            />
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <IconButton
+                onClick={() => {
+                  if (newComment.length > 0) {
+                    handleCommentSubmit();
+                    setNewComment("");
+                  }
+                }}
+              >
+                <Send
+                  sx={{
+                    width: "2.5rem",
+                    height: "2.5rem",
+                    backgroundColor: palette.primary.main,
+                    borderRadius: "0.5rem",
+                    mb: "0.2rem",
+                    // "&:hover": { backgroundColor: palette.primary.main },
+                  }}
+                />
+              </IconButton>
+            </Box>
+          </Box>
           {/* <Divider /> */}
         </Box>
       )}
