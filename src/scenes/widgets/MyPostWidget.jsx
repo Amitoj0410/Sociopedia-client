@@ -2,7 +2,7 @@ import {
   EditOutlined,
   DeleteOutlined,
   AttachFileOutlined,
-  GifBoxOutlined,
+  VideoCameraBackOutlined,
   ImageOutlined,
   MicOutlined,
   MoreHorizOutlined,
@@ -29,6 +29,8 @@ const MyPostWidget = ({ picturePath }) => {
   const dispatch = useDispatch();
   const [isImage, setIsImage] = useState(false);
   const [image, setImage] = useState(null);
+  const [isVideo, setIsVideo] = useState(false); //new
+  const [video, setVideo] = useState(null); //new
   const [post, setPost] = useState("");
   const { palette } = useTheme();
   const { _id } = useSelector((state) => state.user);
@@ -44,6 +46,10 @@ const MyPostWidget = ({ picturePath }) => {
     if (image) {
       formData.append("picture", image);
       formData.append("picturePath", image.name);
+    }
+    if (video) {
+      formData.append("video", video);
+      formData.append("videoPath", video.name);
     }
 
     const response = await fetch(
@@ -121,6 +127,51 @@ const MyPostWidget = ({ picturePath }) => {
         </Box>
       )}
 
+      {isVideo && (
+        <Box
+          border={`1px solid ${medium}`}
+          borderRadius="5px"
+          mt="1rem"
+          p="1rem"
+        >
+          <Dropzone
+            acceptedFiles=".mp4"
+            multiple={false}
+            onDrop={(acceptedFiles) => setVideo(acceptedFiles[0])}
+          >
+            {({ getRootProps, getInputProps }) => (
+              <FlexBetween>
+                <Box
+                  {...getRootProps()}
+                  border={`2px dashed ${palette.primary.main}`}
+                  p="1rem"
+                  width="100%"
+                  sx={{ "&:hover": { cursor: "pointer" } }}
+                >
+                  <input {...getInputProps()} />
+                  {!video ? (
+                    <p>Add Video Here</p>
+                  ) : (
+                    <FlexBetween>
+                      <Typography>{video.name}</Typography>
+                      <EditOutlined />
+                    </FlexBetween>
+                  )}
+                </Box>
+                {video && (
+                  <IconButton
+                    onClick={() => setVideo(null)}
+                    sx={{ width: "15%" }}
+                  >
+                    <DeleteOutlined />
+                  </IconButton>
+                )}
+              </FlexBetween>
+            )}
+          </Dropzone>
+        </Box>
+      )}
+
       <Divider sx={{ margin: "1.25rem 0" }} />
 
       <FlexBetween>
@@ -137,8 +188,15 @@ const MyPostWidget = ({ picturePath }) => {
         {isNonMobileScreens ? (
           <>
             <FlexBetween gap="0.25rem">
-              <GifBoxOutlined sx={{ color: mediumMain }} />
-              <Typography color={mediumMain}>Clip</Typography>
+              <FlexBetween gap="0.25rem" onClick={() => setIsVideo(!isVideo)}>
+                <VideoCameraBackOutlined sx={{ color: mediumMain }} />
+                <Typography
+                  color={mediumMain}
+                  sx={{ "&:hover": { cursor: "pointer", color: medium } }}
+                >
+                  Video
+                </Typography>
+              </FlexBetween>
             </FlexBetween>
 
             <FlexBetween gap="0.25rem">
