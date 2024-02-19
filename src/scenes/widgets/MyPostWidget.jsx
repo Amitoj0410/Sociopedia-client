@@ -64,6 +64,8 @@ const MyPostWidget = ({ picturePath }) => {
     dispatch(setPosts({ posts }));
     setImage(null);
     setVideo(null);
+    setIsImage(false);
+    setIsVideo(false);
     setPost("");
   };
 
