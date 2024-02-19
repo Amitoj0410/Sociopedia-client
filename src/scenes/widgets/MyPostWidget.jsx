@@ -24,8 +24,9 @@ import WidgetWrapper from "components/WidgetWrapper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
+import { useNavigate } from "react-router-dom";
 
-const MyPostWidget = ({ picturePath }) => {
+const MyPostWidget = ({ picturePath, userId }) => {
   const dispatch = useDispatch();
   const [isImage, setIsImage] = useState(false);
   const [image, setImage] = useState(null);
@@ -38,6 +39,7 @@ const MyPostWidget = ({ picturePath }) => {
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const mediumMain = palette.neutral.mediumMain;
   const medium = palette.neutral.medium;
+  const navigate = useNavigate();
 
   const handlePost = async () => {
     const formData = new FormData();
@@ -72,7 +74,14 @@ const MyPostWidget = ({ picturePath }) => {
   return (
     <WidgetWrapper mb="2rem">
       <FlexBetween gap="1.5rem">
-        <UserImage image={picturePath} />
+        <Box
+          sx={{ "&:hover": { cursor: "pointer" } }}
+          onClick={() => {
+            navigate(`/profile/${userId}`);
+          }}
+        >
+          <UserImage image={picturePath} />
+        </Box>
         <InputBase
           placeholder="What's on your mind..."
           onChange={(e) => setPost(e.target.value)}
