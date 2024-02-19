@@ -2,6 +2,7 @@ import {
   PersonAddOutlined,
   PersonRemoveOutlined,
   MoreVertOutlined,
+  ArrowRight,
 } from "@mui/icons-material";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +14,7 @@ import { useState } from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { setPosts } from "state";
+import PostCreatedAt from "./PostCreatedAt";
 
 const Friend = ({ friendId, name, subtitle, userPicturePath, postId }) => {
   //here the friendId is not a friends id but actually it is the id of the person who created the post
@@ -95,16 +97,25 @@ const Friend = ({ friendId, name, subtitle, userPicturePath, postId }) => {
             navigate(0);
           }}
         >
-          <Typography
-            color={main}
-            variant="h5"
-            fontWeight="500"
-            sx={{
-              "&:hover": { color: palette.primary.light, cursor: "pointer" },
-            }}
-          >
-            {name}
-          </Typography>
+          <Box display="flex">
+            <Typography
+              color={main}
+              variant="h5"
+              fontWeight="500"
+              sx={{
+                "&:hover": { color: palette.primary.light, cursor: "pointer" },
+              }}
+            >
+              {name}&nbsp;
+            </Typography>
+            {/* new */}
+            {postId && (
+              <Box display="flex">
+                <ArrowRight />
+                <PostCreatedAt postId={postId} />
+              </Box>
+            )}
+          </Box>
           <Typography color={medium} fontSize="0.75rem">
             {subtitle}
           </Typography>
