@@ -154,18 +154,24 @@ const PostWidget = ({
         />
       )}
       {videoPath && (
-        <video
-          width="100%"
-          height="auto"
-          controls
-          style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-        >
-          <source
-            src={`https://socialpedia-serverr.onrender.com/assets/${videoPath}`}
-            type="video/mp4"
-          />
-          Your browser does not support the video tag.
-        </video>
+        <Box sx={{ "&:hover": { cursor: "pointer" } }}>
+          <video
+            width="100%"
+            height="auto"
+            controls
+            style={{
+              borderRadius: "0.75rem",
+              marginTop: "0.75rem",
+              // ":hover": { cursor: "pointer" },
+            }}
+          >
+            <source
+              src={`https://socialpedia-serverr.onrender.com/assets/${videoPath}`}
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
+        </Box>
       )}
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
