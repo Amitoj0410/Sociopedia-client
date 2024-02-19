@@ -93,6 +93,7 @@ const LoadSearchResults = ({ type, value }) => {
                 description,
                 location,
                 picturePath,
+                videoPath,
                 userPicturePath,
                 likes,
                 comments,
@@ -106,6 +107,7 @@ const LoadSearchResults = ({ type, value }) => {
                     description={description}
                     location={location}
                     picturePath={picturePath}
+                    videoPath={videoPath}
                     userPicturePath={userPicturePath}
                     likes={likes}
                     comments={comments}
