@@ -28,6 +28,11 @@ export const authSlice = createSlice({
     setLogout: (state, action) => {
       state.user = null;
       state.token = null;
+      state.posts = [];
+      state.searchType = "people";
+      state.searchValue = "";
+      state.searchResults.people = [];
+      state.searchResults.posts = [];
     },
     setFriends: (state, action) => {
       if (state.user) {
