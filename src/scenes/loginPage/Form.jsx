@@ -71,6 +71,7 @@ const Form = () => {
 
   const [alert, setAlert] = useState("");
 
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   // const [otp, setOtp] = useState[""];
   const register = async (values, onSubmitProps) => {
     // this allows us to send form info with image
@@ -98,6 +99,7 @@ const Form = () => {
       // console.error("Error : User not Saved");
       setAlert(savedUser.msg);
     }
+    setIsButtonDisabled(false);
   };
 
   const login = async (values, onSubmitProps) => {
@@ -126,6 +128,7 @@ const Form = () => {
       // console.error(loggedIn.msg);
       setAlert(loggedIn.msg);
     }
+    setIsButtonDisabled(false);
   };
 
   const forgotPassword = async (values, onSubmitProps) => {
@@ -154,9 +157,11 @@ const Form = () => {
       // console.error(loggedIn.msg);
       setAlert(loggedIn.msg);
     }
+    setIsButtonDisabled(false);
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
+    setIsButtonDisabled(!isButtonDisabled);
     if (isLogin) await login(values, onSubmitProps);
     if (isRegister) await register(values, onSubmitProps);
     if (isForgotPassword) await forgotPassword(values, onSubmitProps);
@@ -314,7 +319,9 @@ const Form = () => {
                       type="submit"
                       sx={{
                         p: "1rem",
-                        backgroundColor: palette.primary.main,
+                        backgroundColor: isButtonDisabled
+                          ? palette.neutral.light
+                          : palette.primary.main,
                         color: palette.background.alt,
                         "&:hover": { color: palette.primary.main },
                         gridColumn: "span 1",
@@ -385,10 +392,13 @@ const Form = () => {
               sx={{
                 m: "2rem 0",
                 p: "1rem",
-                backgroundColor: palette.primary.main,
+                backgroundColor: isButtonDisabled
+                  ? palette.neutral.light
+                  : palette.primary.main,
                 color: palette.background.alt,
                 "&:hover": { color: palette.primary.main },
               }}
+              disabled={isButtonDisabled}
             >
               {/* {isLogin ? "LOGIN" : "REGISTER"} */}
               {isLogin && "LOGIN"}

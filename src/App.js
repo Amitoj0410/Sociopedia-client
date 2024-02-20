@@ -9,7 +9,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "theme";
 import EditProfilePage from "scenes/editProfile";
-import { clearToken } from "state";
+import { setLogout } from "state";
 import { jwtDecode } from "jwt-decode";
 
 function App() {
@@ -27,7 +27,8 @@ function App() {
 
       if (tokenExp && tokenExp < currentTime) {
         // Token has expired
-        dispatch(clearToken());
+        // dispatch(clearToken());
+        dispatch(setLogout());
       }
     };
 
