@@ -36,17 +36,18 @@ const Form = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [saveChangesBtnClicked, setSaveChangesBtnClicked] = useState(false);
   const initialValuesEdit = {
     firstName: user.firstName,
     lastName: user.lastName,
     // email: "",
     location: user.location,
     occupation: user.occupation,
-    picture: "", //changed at 1:34PM 16 Feb 2024
+    picture: user.picture, //changed at 1:34PM 16 Feb 2024
   };
 
   const saveChanges = async (values, onSubmitProps) => {
+    setSaveChangesBtnClicked(true);
     // console.log("hello");
     const formData = new FormData();
     // console.log(values.firstName);
@@ -55,7 +56,8 @@ const Form = () => {
     formData.append("lastName", values.lastName);
     formData.append("location", values.location);
     formData.append("occupation", values.occupation);
-    formData.append("picturePath", values.picture.name); // changed at 1:39 pm same day
+    formData.append("picture", values.picture); // changed at 1:39 pm same day
+    // formData.append("picturePath", values.picture.name); // changed at 1:39 pm same day
 
     // Append the picture file if it exists
     // if (values.picturePath) {
@@ -236,6 +238,7 @@ const Form = () => {
                 color: palette.background.alt,
                 "&:hover": { color: palette.primary.main },
               }}
+              disabled={saveChangesBtnClicked}
             >
               Save Changes
             </Button>

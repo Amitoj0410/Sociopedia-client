@@ -40,20 +40,21 @@ const MyPostWidget = ({ picturePath, userId }) => {
   const mediumMain = palette.neutral.mediumMain;
   const medium = palette.neutral.medium;
   const navigate = useNavigate();
+  const [createPostBtnClicked, setCreatePostBtnClicked] = useState(false);
 
   const handlePost = async () => {
+    setCreatePostBtnClicked(true);
     const formData = new FormData();
     formData.append("userId", _id);
     formData.append("description", post);
     if (image) {
       formData.append("picture", image);
-      formData.append("picturePath", image.name);
+      // formData.append("picturePath", image.name);
     }
     if (video) {
       formData.append("video", video);
-      formData.append("videoPath", video.name);
+      // formData.append("videoPath", video.name);
     }
-
     const response = await fetch(
       `https://socialpedia-serverr.onrender.com/posts`,
       {
@@ -69,6 +70,7 @@ const MyPostWidget = ({ picturePath, userId }) => {
     setIsImage(false);
     setIsVideo(false);
     setPost("");
+    setCreatePostBtnClicked(false);
   };
 
   return (
@@ -228,7 +230,7 @@ const MyPostWidget = ({ picturePath, userId }) => {
         )}
 
         <Button
-          disabled={!post}
+          disabled={!post || createPostBtnClicked}
           onClick={handlePost}
           sx={{
             color: palette.background.alt,

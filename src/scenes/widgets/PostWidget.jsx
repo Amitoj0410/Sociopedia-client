@@ -151,7 +151,8 @@ const PostWidget = ({
           height="auto"
           alt="post"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={`https://socialpedia-serverr.onrender.com/assets/${picturePath}`}
+          // src={`https://socialpedia-serverr.onrender.com/assets/${picturePath}`}
+          src={picturePath}
         />
       )}
       {videoPath && (
@@ -167,7 +168,8 @@ const PostWidget = ({
             }}
           >
             <source
-              src={`https://socialpedia-serverr.onrender.com/assets/${videoPath}`}
+              // src={`https://socialpedia-serverr.onrender.com/assets/${videoPath}`}
+              src={videoPath}
               type="video/mp4"
             />
             Your browser does not support the video tag.

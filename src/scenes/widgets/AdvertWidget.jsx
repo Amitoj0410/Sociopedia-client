@@ -20,7 +20,7 @@ const AdvertWidget = () => {
         width="100%"
         height="auto"
         alt="advert"
-        src="https://socialpedia-serverr.onrender.com/assets/info4.jpeg"
+        src="https://res.cloudinary.com/dwmi9l48l/image/upload/v1708643897/Sociopedia_Storage/npm4exguxwg1tur2lqlo.jpg"
         style={{ borderRadius: "0.75rem", margin: "0.75rem 0" }}
       />
       <FlexBetween>
