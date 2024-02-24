@@ -41,6 +41,13 @@ export const authSlice = createSlice({
         console.error("user friends non-existent :(");
       }
     },
+    setUnknownPeople: (state, action) => {
+      if (state.user) {
+        state.user.unknown = action.payload.unknown;
+      } else {
+        console.error("unknown non-existent :(");
+      }
+    },
     setPosts: (state, action) => {
       state.posts = action.payload.posts;
     },
@@ -81,6 +88,7 @@ export const {
   setLogin,
   setLogout,
   setFriends,
+  setUnknownPeople,
   setPosts,
   setPost,
   setOtp,

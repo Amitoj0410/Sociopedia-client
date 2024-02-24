@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
 import PostWidget from "./PostWidget";
+import WidgetWrapper from "components/WidgetWrapper";
+import { Typography } from "@mui/material";
 
 const PostsWidget = ({ userId, isProfile = false }) => {
   const dispatch = useDispatch();
@@ -48,7 +50,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
 
   return (
     <>
-      {Array.isArray(posts) &&
+      {Array.isArray(posts) && posts.length > 0 ? (
         posts.map(
           ({
             _id,
@@ -77,7 +79,17 @@ const PostsWidget = ({ userId, isProfile = false }) => {
               comments={comments}
             />
           )
-        )}
+        )
+      ) : (
+        <WidgetWrapper
+          mb={`2rem`}
+          maxWidth={"35rem"}
+          sx={{ wordWrap: "break-word" }}
+          overflow={"hidden"}
+        >
+          <Typography variant="h3">User didn't posted anything yet</Typography>
+        </WidgetWrapper>
+      )}
     </>
   );
 };
