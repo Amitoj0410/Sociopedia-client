@@ -17,6 +17,7 @@ import { setLogin } from "state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
 import Alert from "@mui/material/Alert";
+import { ClipLoader } from "react-spinners";
 
 // <Alert severity="error">This is an error Alert.</Alert>
 const registerSchema = yup.object().shape({
@@ -401,10 +402,15 @@ const Form = () => {
               }}
               disabled={isButtonDisabled}
             >
+              {isButtonDisabled && (
+                <>
+                  <ClipLoader color={palette.primary.main} size={23} />
+                </>
+              )}
               {/* {isLogin ? "LOGIN" : "REGISTER"} */}
-              {isLogin && "LOGIN"}
-              {isRegister && "REGISTER"}
-              {isForgotPassword && "SUBMIT OTP"}
+              {isLogin && !isButtonDisabled && "LOGIN"}
+              {isRegister && !isButtonDisabled && "REGISTER"}
+              {isForgotPassword && !isButtonDisabled && "SUBMIT OTP"}
             </Button>
             <Typography
               onClick={() => {
