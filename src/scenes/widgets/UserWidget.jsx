@@ -23,7 +23,7 @@ const UserWidget = ({ userId, picturePath }) => {
 
   const getUser = async () => {
     const response = await fetch(
-      `https://socialpedia-serverr.onrender.com/users/${userId}`,
+      `https://fuzzy-cyan-harp-seal.cyclic.app/users/${userId}`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },

@@ -25,7 +25,7 @@ import {
 import FlexBetween from "components/FlexBetween";
 import Friend from "components/Friend";
 import WidgetWrapper from "components/WidgetWrapper";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "state";
 
@@ -42,6 +42,7 @@ const PostWidget = ({
   comments,
 }) => {
   const [isComments, setIsComments] = useState(false);
+  const [comment, setComment] = useState("");
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
   const loggedInUserId = useSelector((state) => state.user._id);
@@ -50,6 +51,7 @@ const PostWidget = ({
   const [newComment, setNewComment] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  // const userId_commentBody =
 
   const { palette } = useTheme();
   const main = palette.neutral.main;
@@ -57,7 +59,7 @@ const PostWidget = ({
 
   const patchLike = async () => {
     const response = await fetch(
-      `https://socialpedia-serverr.onrender.com/posts/${postId}/like`,
+      `https://fuzzy-cyan-harp-seal.cyclic.app/posts/${postId}/like`,
       {
         method: "PATCH",
         headers: {
@@ -74,7 +76,7 @@ const PostWidget = ({
   const handleCommentSubmit = async () => {
     const trimmedComment = newComment.trim();
     const response = await fetch(
-      `https://socialpedia-serverr.onrender.com/posts/${postId}/comment`,
+      `https://fuzzy-cyan-harp-seal.cyclic.app/posts/${postId}/comment`,
       {
         method: "POST",
         headers: {
@@ -102,7 +104,7 @@ const PostWidget = ({
 
   // later
   const handleWhatsAppShare = () => {
-    const shareableLink = `https://socialpedia-serverr.onrender.com/assets/${picturePath}`;
+    const shareableLink = `https://fuzzy-cyan-harp-seal.cyclic.app/assets/${picturePath}`;
     const shareableText = `${description}`;
     const message = `${shareableText}\n${shareableLink}`;
     const whatsappLink = `https://wa.me/?text=${encodeURIComponent(message)}`;
@@ -111,7 +113,7 @@ const PostWidget = ({
 
   const handleInstagramShare = () => {
     // console.log("hello");
-    // const shareableLink = `https://socialpedia-serverr.onrender.com/assets/${encodeURIComponent(
+    // const shareableLink = `https://fuzzy-cyan-harp-seal.cyclic.app/assets/${encodeURIComponent(
     //   picturePath
     // )}`;
     // const shareableText = encodeURIComponent(description);
@@ -151,7 +153,7 @@ const PostWidget = ({
           height="auto"
           alt="post"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          // src={`https://socialpedia-serverr.onrender.com/assets/${picturePath}`}
+          // src={`https://fuzzy-cyan-harp-seal.cyclic.app/assets/${picturePath}`}
           src={picturePath}
         />
       )}
@@ -168,7 +170,7 @@ const PostWidget = ({
             }}
           >
             <source
-              // src={`https://socialpedia-serverr.onrender.com/assets/${videoPath}`}
+              // src={`https://fuzzy-cyan-harp-seal.cyclic.app/assets/${videoPath}`}
               src={videoPath}
               type="video/mp4"
             />
@@ -259,15 +261,16 @@ const PostWidget = ({
           </FlexBetween>
           <Divider />
           <List sx={{ maxHeight: "12rem", overflowY: "auto" }}>
-            {comments.map((comment, index) => (
-              <>
-                <ListItem key={index}>
-                  <KeyboardArrowRight />
-                  <Typography>{comment}</Typography>
-                </ListItem>
-                <Divider />
-              </>
-            ))}
+            {Array.isArray(comments) &&
+              comments.map((comment, index) => (
+                <>
+                  <ListItem key={index}>
+                    <KeyboardArrowRight />
+                    <Typography>{comment.split(" ")[1]}</Typography>
+                  </ListItem>
+                  <Divider />
+                </>
+              ))}
           </List>
           <Box display="flex">
             <TextField
