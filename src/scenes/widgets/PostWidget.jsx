@@ -266,7 +266,7 @@ const PostWidget = ({
                 <>
                   <ListItem key={index}>
                     <KeyboardArrowRight />
-                    <Typography>{comment.split(" ")[1]}</Typography>
+                    <Typography>{comment}</Typography>
                   </ListItem>
                   <Divider />
                 </>

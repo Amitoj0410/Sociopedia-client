@@ -11,11 +11,11 @@ import {
   Box,
   Divider,
   Typography,
-  InputBase,
   useTheme,
   Button,
   IconButton,
   useMediaQuery,
+  TextField,
 } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import Dropzone from "react-dropzone";
@@ -25,6 +25,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
 import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 
 const MyPostWidget = ({ picturePath, userId }) => {
   const dispatch = useDispatch();
@@ -43,34 +44,53 @@ const MyPostWidget = ({ picturePath, userId }) => {
   const [createPostBtnClicked, setCreatePostBtnClicked] = useState(false);
 
   const handlePost = async () => {
-    setCreatePostBtnClicked(true);
-    const formData = new FormData();
-    formData.append("userId", _id);
-    formData.append("description", post);
-    if (image) {
-      formData.append("picture", image);
-      // formData.append("picturePath", image.name);
-    }
-    if (video) {
-      formData.append("video", video);
-      // formData.append("videoPath", video.name);
-    }
-    const response = await fetch(
-      `https://fuzzy-cyan-harp-seal.cyclic.app/posts`,
-      {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
+    try {
+      setCreatePostBtnClicked(true);
+      const formData = new FormData();
+      formData.append("userId", _id);
+      formData.append("description", post);
+      if (image) {
+        formData.append("picture", image);
+        // formData.append("picturePath", image.name);
       }
-    );
-    const posts = await response.json();
-    dispatch(setPosts({ posts }));
-    setImage(null);
-    setVideo(null);
-    setIsImage(false);
-    setIsVideo(false);
-    setPost("");
-    setCreatePostBtnClicked(false);
+      if (video) {
+        formData.append("video", video);
+        // formData.append("videoPath", video.name);
+      }
+      const response = await fetch(
+        `https://fuzzy-cyan-harp-seal.cyclic.app/posts`,
+        {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const posts = await response.json();
+      dispatch(setPosts({ posts }));
+      setImage(null);
+      setVideo(null);
+      setIsImage(false);
+      setIsVideo(false);
+      setPost("");
+      setCreatePostBtnClicked(false);
+    } catch (err) {
+      console.error("Error during fetch:", err);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      // Prevent the default behavior of the Enter key
+      e.preventDefault();
+      // handlePost();
+
+      // Append a newline character to the current post value
+      setPost((prevPost) => prevPost + "\n");
+    }
   };
 
   return (
@@ -84,16 +104,19 @@ const MyPostWidget = ({ picturePath, userId }) => {
         >
           <UserImage image={picturePath} />
         </Box>
-        <InputBase
+        <TextField
           placeholder="What's on your mind..."
           onChange={(e) => setPost(e.target.value)}
           value={post}
+          variant="standard"
+          onKeyDown={handleKeyDown}
           sx={{
             width: "100%",
             backgroundColor: palette.neutral.light,
             borderRadius: "2rem",
             padding: "1rem 2rem",
           }}
+          multiline
         />
       </FlexBetween>
       {isImage && (
@@ -238,7 +261,10 @@ const MyPostWidget = ({ picturePath, userId }) => {
             borderRadius: "3rem",
           }}
         >
-          POST
+          {createPostBtnClicked && (
+            <ClipLoader color={palette.neutral.dark} size={17} />
+          )}
+          {!createPostBtnClicked && <>POST</>}
         </Button>
       </FlexBetween>
     </WidgetWrapper>
