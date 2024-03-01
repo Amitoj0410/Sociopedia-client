@@ -17,7 +17,7 @@ const ProfilePage = () => {
 
   const getUser = async () => {
     const response = await fetch(
-      `https://fuzzy-cyan-harp-seal.cyclic.app/users/${userId}`,
+      `https://socialpedia-serverr.onrender.com/users/${userId}`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
