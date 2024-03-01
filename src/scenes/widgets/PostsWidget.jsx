@@ -12,7 +12,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
 
   const getPosts = async () => {
     const response = await fetch(
-      `https://fuzzy-cyan-harp-seal.cyclic.app/posts`,
+      `https://socialpedia-serverr.onrender.com/posts`,
       {
         //doubt : /posts/ in fetch
         method: "GET",
@@ -27,7 +27,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
 
   const getUserPosts = async () => {
     const response = await fetch(
-      `https://fuzzy-cyan-harp-seal.cyclic.app/posts/${userId}/posts`,
+      `https://socialpedia-serverr.onrender.com/posts/${userId}/posts`,
       {
         //doubt : /posts/ in fetch
         method: "GET",

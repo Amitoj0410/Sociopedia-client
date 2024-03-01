@@ -65,7 +65,7 @@ const Form = () => {
     // console.log(formData.get("firstName"));
     try {
       const savedChangesResponse = await fetch(
-        `https://fuzzy-cyan-harp-seal.cyclic.app/auth/${userId}/editProfile`,
+        `https://socialpedia-serverr.onrender.com/auth/${userId}/editProfile`,
         {
           method: "PUT",
           headers: {

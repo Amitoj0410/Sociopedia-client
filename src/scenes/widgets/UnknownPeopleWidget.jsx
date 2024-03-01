@@ -13,7 +13,7 @@ const UnknownPeopleWidget = ({ userId }) => {
 
   const getUnknownPeople = async () => {
     const response = await fetch(
-      `https://fuzzy-cyan-harp-seal.cyclic.app/users/${userId}/unknownPeople`,
+      `https://socialpedia-serverr.onrender.com/users/${userId}/unknownPeople`,
       {
         method: "GET",
         headers: {
