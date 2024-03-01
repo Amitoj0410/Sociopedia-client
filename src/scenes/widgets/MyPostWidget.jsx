@@ -46,6 +46,8 @@ const MyPostWidget = ({ picturePath, userId }) => {
   const handlePost = async () => {
     try {
       setCreatePostBtnClicked(true);
+      // Replace newline characters with the appropriate sequence for the backend
+
       const formData = new FormData();
       formData.append("userId", _id);
       formData.append("description", post);
@@ -86,7 +88,6 @@ const MyPostWidget = ({ picturePath, userId }) => {
     if (e.key === "Enter") {
       // Prevent the default behavior of the Enter key
       e.preventDefault();
-      // handlePost();
 
       // Append a newline character to the current post value
       setPost((prevPost) => prevPost + "\n");

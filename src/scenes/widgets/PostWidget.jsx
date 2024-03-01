@@ -51,8 +51,7 @@ const PostWidget = ({
   const [newComment, setNewComment] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  // const userId_commentBody =
-
+  const splittedDesc = description.split("\n");
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const primary = palette.primary.main;
@@ -145,7 +144,12 @@ const PostWidget = ({
           // whiteSpace: "normal",
         }}
       >
-        {description}
+        {splittedDesc.map((singleLine, index) => (
+          <React.Fragment key={index}>
+            {singleLine}
+            <br />
+          </React.Fragment>
+        ))}
       </Typography>
       {picturePath && (
         <img
