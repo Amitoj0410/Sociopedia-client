@@ -58,7 +58,7 @@ const PostWidget = ({
 
   const patchLike = async () => {
     const response = await fetch(
-      `https://socialpedia-serverr.onrender.com/posts/${postId}/like`,
+      `https://fuzzy-cyan-harp-seal.cyclic.app/posts/${postId}/like`,
       {
         method: "PATCH",
         headers: {
@@ -75,7 +75,7 @@ const PostWidget = ({
   const handleCommentSubmit = async () => {
     const trimmedComment = newComment.trim();
     const response = await fetch(
-      `https://socialpedia-serverr.onrender.com/posts/${postId}/comment`,
+      `https://fuzzy-cyan-harp-seal.cyclic.app/posts/${postId}/comment`,
       {
         method: "POST",
         headers: {
@@ -103,7 +103,7 @@ const PostWidget = ({
 
   // later
   const handleWhatsAppShare = () => {
-    const shareableLink = `https://socialpedia-serverr.onrender.com/assets/${picturePath}`;
+    const shareableLink = `https://fuzzy-cyan-harp-seal.cyclic.app/assets/${picturePath}`;
     const shareableText = `${description}`;
     const message = `${shareableText}\n${shareableLink}`;
     const whatsappLink = `https://wa.me/?text=${encodeURIComponent(message)}`;
@@ -112,7 +112,7 @@ const PostWidget = ({
 
   const handleInstagramShare = () => {
     // console.log("hello");
-    // const shareableLink = `https://socialpedia-serverr.onrender.com/assets/${encodeURIComponent(
+    // const shareableLink = `https://fuzzy-cyan-harp-seal.cyclic.app/assets/${encodeURIComponent(
     //   picturePath
     // )}`;
     // const shareableText = encodeURIComponent(description);
@@ -157,7 +157,7 @@ const PostWidget = ({
           height="auto"
           alt="post"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          // src={`https://socialpedia-serverr.onrender.com/assets/${picturePath}`}
+          // src={`https://fuzzy-cyan-harp-seal.cyclic.app/assets/${picturePath}`}
           src={picturePath}
         />
       )}
@@ -174,7 +174,7 @@ const PostWidget = ({
             }}
           >
             <source
-              // src={`https://socialpedia-serverr.onrender.com/assets/${videoPath}`}
+              // src={`https://fuzzy-cyan-harp-seal.cyclic.app/assets/${videoPath}`}
               src={videoPath}
               type="video/mp4"
             />

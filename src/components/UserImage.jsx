@@ -8,7 +8,7 @@ const UserImage = ({ image, size = "60px" }) => {
         width={size}
         height={size}
         alt="user"
-        // src={`https://socialpedia-serverr.onrender.com/assets/${image}`}
+        // src={`https://fuzzy-cyan-harp-seal.cyclic.app/assets/${image}`}
         src={image}
       />
     </Box>
