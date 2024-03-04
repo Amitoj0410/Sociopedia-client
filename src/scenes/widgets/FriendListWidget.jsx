@@ -13,7 +13,7 @@ const FriendsListWidget = ({ userId }) => {
 
   const getFriends = async () => {
     const response = await fetch(
-      `https://fuzzy-cyan-harp-seal.cyclic.app/users/${userId}/friends`,
+      `https://socialpedia-serverr.onrender.com/users/${userId}/friends`,
       {
         method: "GET",
         headers: {

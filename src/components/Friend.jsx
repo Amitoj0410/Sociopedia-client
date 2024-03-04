@@ -48,7 +48,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath, postId }) => {
 
   const patchFriend = async () => {
     const response = await fetch(
-      `https://fuzzy-cyan-harp-seal.cyclic.app/users/${_id}/${friendId}`,
+      `https://socialpedia-serverr.onrender.com/users/${_id}/${friendId}`,
       {
         method: "PATCH",
         headers: {
@@ -63,7 +63,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath, postId }) => {
 
   const deletePost = async () => {
     const response = await fetch(
-      `https://fuzzy-cyan-harp-seal.cyclic.app/posts/${postId}/delete`,
+      `https://socialpedia-serverr.onrender.com/posts/${postId}/delete`,
       {
         method: "DELETE",
         headers: {
