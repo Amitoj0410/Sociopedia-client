@@ -5,7 +5,7 @@
 
 //   const getPost = async () => {
 //     const response = await fetch(
-//       `https://socialpedia-serverr.onrender.com/posts/${postId}`,
+//       `https://fuzzy-cyan-harp-seal.cyclic.app/posts/${postId}`,
 //       {
 //         method: "GET",
 //         headers: {
@@ -33,7 +33,7 @@ const PostCreatedAt = ({ postId }) => {
     const getPost = async () => {
       try {
         const response = await fetch(
-          `https://socialpedia-serverr.onrender.com/posts/${postId}`,
+          `https://fuzzy-cyan-harp-seal.cyclic.app/posts/${postId}`,
           {
             method: "GET",
             headers: {

@@ -83,7 +83,7 @@ const Form = () => {
     // formData.append("picturePath", values.picture.name);
 
     const savedUserResponse = await fetch(
-      "https://socialpedia-serverr.onrender.com/auth/register",
+      "https://fuzzy-cyan-harp-seal.cyclic.app/auth/register",
       {
         method: "POST",
         body: formData,
@@ -106,7 +106,7 @@ const Form = () => {
   const login = async (values, onSubmitProps) => {
     console.log("hello");
     const loggedInResponse = await fetch(
-      "https://socialpedia-serverr.onrender.com/auth/login",
+      "https://fuzzy-cyan-harp-seal.cyclic.app/auth/login",
       {
         method: "POST",
         headers: { "Content-type": "application/json" },
@@ -135,7 +135,7 @@ const Form = () => {
 
   const forgotPassword = async (values, onSubmitProps) => {
     const loggedInResponse = await fetch(
-      "https://socialpedia-serverr.onrender.com/auth/login",
+      "https://fuzzy-cyan-harp-seal.cyclic.app/auth/login",
       {
         method: "POST",
         headers: { "Content-type": "application/json" },
@@ -170,7 +170,7 @@ const Form = () => {
   };
 
   // const handleSendOTP = async () => {
-  //   const response = await fetch(`https://socialpedia-serverr.onrender.com/auth/forgotPassword`, {
+  //   const response = await fetch(`https://fuzzy-cyan-harp-seal.cyclic.app/auth/forgotPassword`, {
   //     method: "POST",
   //     body: {
   //       email: JSON.stringify(values.email),
