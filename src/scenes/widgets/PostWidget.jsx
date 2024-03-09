@@ -3,11 +3,11 @@ import {
   FavoriteBorderOutlined,
   FavoriteOutlined,
   ShareOutlined,
-  KeyboardArrowRight,
   Close,
   WhatsApp,
   Instagram,
   Send,
+  ArrowRight,
 } from "@mui/icons-material";
 
 import {
@@ -22,6 +22,7 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
+import FindUserById from "components/FindUserById";
 import FlexBetween from "components/FlexBetween";
 import Friend from "components/Friend";
 import WidgetWrapper from "components/WidgetWrapper";
@@ -42,7 +43,9 @@ const PostWidget = ({
   comments,
 }) => {
   const [isComments, setIsComments] = useState(false);
-  const [comment, setComment] = useState("");
+  // const [allComments, setAllComments] = useState([]);
+  // var allComents = [];
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
   const loggedInUserId = useSelector((state) => state.user._id);
@@ -120,6 +123,15 @@ const PostWidget = ({
     // window.open(instagramLink, "_blank");
   };
 
+  const showPart2 = (currentComment) => {
+    var resultArray = currentComment.split(":");
+
+    // resultArray will now contain two elements, with the string broken at the first ':'
+    // var firstPart = resultArray[0];
+    var secondPart = resultArray.slice(1).join(":");
+    return secondPart;
+  };
+
   return (
     <WidgetWrapper
       mb={`2rem`}
@@ -165,11 +177,13 @@ const PostWidget = ({
         <Box sx={{ "&:hover": { cursor: "pointer" } }}>
           <video
             width="100%"
-            height="auto"
+            // height="auto"
             controls
             style={{
               borderRadius: "0.75rem",
               marginTop: "0.75rem",
+              maxHeight: "25rem",
+              objectFit: "cover",
               // ":hover": { cursor: "pointer" },
             }}
           >
@@ -264,16 +278,52 @@ const PostWidget = ({
             </IconButton>
           </FlexBetween>
           <Divider />
-          <List sx={{ maxHeight: "12rem", overflowY: "auto" }}>
+          {/* <List sx={{ maxHeight: "12rem", overflowY: "auto" }}>
             {Array.isArray(comments) &&
               comments.map((comment, index) => (
                 <>
                   <ListItem key={index}>
                     <KeyboardArrowRight />
-                    <Typography>{comment}</Typography>
+                    <Typography>
+                      <Box sx={{ display: "inline" }}>{showPart1(comment)}</Box>
+                      <Box sx={{ display: "inline" }}> :- </Box>
+                      <Box sx={{ display: "inline" }}>{showPart2(comment)}</Box>
+                    </Typography>
                   </ListItem>
                   <Divider />
                 </>
+              ))}
+          </List> */}
+          <List sx={{ maxHeight: "12rem", overflowY: "auto" }}>
+            {Array.isArray(comments) &&
+              comments.map((comment, index) => (
+                <React.Fragment key={index}>
+                  <ListItem>
+                    {/* <KeyboardArrowRight /> */}
+                    <Typography component="div">
+                      <FlexBetween>
+                        <Box
+                          sx={{
+                            display: "inline",
+                            color: palette.primary.main,
+                            "&:hover": {
+                              cursor: "pointer",
+                              color: palette.primary.light,
+                            },
+                          }}
+                          // onClick={() => {
+                          //   navigate(`/profile/${postUserId}`);
+                          // }}
+                        >
+                          <FindUserById comment={comment} />
+                        </Box>
+                        <ArrowRight />
+                        <Box>{showPart2(comment)}</Box>
+                      </FlexBetween>
+                    </Typography>
+                  </ListItem>
+                  {index < comments.length - 1 && <Divider />}
+                </React.Fragment>
               ))}
           </List>
           <Box display="flex">
