@@ -3,6 +3,7 @@ import HomePage from "scenes/homePage"; //Code written in jsconfig.json actually
 import LoginPage from "scenes/loginPage";
 import ProfilePage from "scenes/profilePage";
 import SearchPage from "scenes/searchPage";
+import NotFoundPage from "scenes/notFoundPage";
 import { useMemo, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { CssBaseline, ThemeProvider } from "@mui/material";
@@ -65,6 +66,10 @@ function App() {
             <Route
               path="/search"
               element={isAuth ? <SearchPage /> : <Navigate to="/" />}
+            />
+            <Route
+              path="*"
+              element={isAuth ? <NotFoundPage /> : <Navigate to="/" />}
             />
           </Routes>
         </ThemeProvider>

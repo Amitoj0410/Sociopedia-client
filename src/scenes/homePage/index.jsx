@@ -14,13 +14,23 @@ const HomePage = () => {
 
   return (
     <Box>
-      <Navbar />
+      <Box
+        sx={{
+          position: "fixed",
+          top: "0",
+          width: "100%",
+          zIndex: 1000,
+        }}
+      >
+        <Navbar />
+      </Box>
       <Box
         width="100%"
         padding="2rem 6%"
         display={isNonMobileScreens ? "flex" : "block"}
         gap="0.5rem"
         justifyContent="space-between"
+        mt="5rem"
       >
         <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
           <UserWidget userId={_id} picturePath={picturePath} />
@@ -41,6 +51,18 @@ const HomePage = () => {
             <FriendsListWidget userId={_id} />
           </Box>
         )}
+      </Box>
+
+      {/* Footer */}
+      <Box
+        backgroundColor="#333"
+        color="#fff"
+        textAlign="center"
+        padding="0.5rem"
+        bottom="0"
+        width="100%"
+      >
+        <p>&copy; 2024 Amitoj Singh. All rights reserved.</p>
       </Box>
     </Box>
   );

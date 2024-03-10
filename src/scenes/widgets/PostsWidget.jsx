@@ -1,14 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
 import PostWidget from "./PostWidget";
 import WidgetWrapper from "components/WidgetWrapper";
-import { Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 
 const PostsWidget = ({ userId, isProfile = false }) => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
+  const [visiblePosts, setVisiblePosts] = useState(5);
 
   const getPosts = async () => {
     const response = await fetch(
@@ -48,10 +49,15 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const visiblePostsData = posts.slice(0, visiblePosts);
+  const handleLoadMore = () => {
+    setVisiblePosts((prevVisiblePosts) => prevVisiblePosts + 5);
+  };
+
   return (
     <>
-      {Array.isArray(posts) && posts.length > 0 ? (
-        posts.map(
+      {Array.isArray(visiblePostsData) && visiblePostsData.length > 0 ? (
+        visiblePostsData.map(
           ({
             _id,
             userId,
@@ -89,6 +95,13 @@ const PostsWidget = ({ userId, isProfile = false }) => {
         >
           <Typography variant="h3">User didn't posted anything yet</Typography>
         </WidgetWrapper>
+      )}
+      {posts.length > visiblePosts && (
+        <Box display="flex" justifyContent="center">
+          <Button variant="contained" onClick={handleLoadMore}>
+            Load More
+          </Button>
+        </Box>
       )}
     </>
   );

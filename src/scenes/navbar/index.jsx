@@ -54,11 +54,13 @@ const Navbar = () => {
   const fullName = `${user.firstName} ${user.lastName}`;
 
   const handleSearch = async () => {
-    dispatch(setSearchValue(searchInput));
-    dispatch(setSearchType("people"));
-    // console.log(abc);
+    if (searchInput.length > 0) {
+      dispatch(setSearchValue(searchInput));
+      dispatch(setSearchType("people"));
+      // console.log(abc);
 
-    navigate("/search");
+      navigate("/search");
+    }
     // navigate(0);
   };
   // useEffect(() => {
