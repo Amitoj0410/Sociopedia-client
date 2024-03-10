@@ -25,7 +25,8 @@ import {
 import FindUserById from "components/FindUserById";
 import FlexBetween from "components/FlexBetween";
 import Friend from "components/Friend";
-import WidgetWrapper from "components/WidgetWrapper";
+import SpecialWidgetWrapper from "components/SpecialWidgetWrapper";
+// import WidgetWrapper from "components/WidgetWrapper";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "state";
@@ -132,20 +133,31 @@ const PostWidget = ({
     return secondPart;
   };
 
+  // const handleOuterClick = (event) => {
+  //   // Check if the click occurred outside the inner icons or components
+  //   if (!event.target.closest(".inner-icons")) {
+  //     alert("Hello");
+  //   }
+  // };
+
   return (
-    <WidgetWrapper
+    <SpecialWidgetWrapper
       mb={`2rem`}
       maxWidth={"35rem"}
       sx={{ wordWrap: "break-word" }}
       overflow={"hidden"}
+      // onClick={handleOuterClick}
     >
-      <Friend
-        friendId={postUserId}
-        name={name}
-        subtitle={location}
-        userPicturePath={userPicturePath}
-        postId={postId}
-      />
+      <Box className="inner-icons">
+        <Friend
+          friendId={postUserId}
+          name={name}
+          subtitle={location}
+          userPicturePath={userPicturePath}
+          postId={postId}
+          // className="inner-icons"
+        />
+      </Box>
       <Typography
         color={main}
         sx={{
@@ -155,6 +167,7 @@ const PostWidget = ({
           // wordWrap: "break-word",
           // whiteSpace: "normal",
         }}
+        className="inner-icons"
       >
         {splittedDesc.map((singleLine, index) => (
           <React.Fragment key={index}>
@@ -171,10 +184,11 @@ const PostWidget = ({
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
           // src={`https://socialpedia-serverr.onrender.com/assets/${picturePath}`}
           src={picturePath}
+          className="inner-icons"
         />
       )}
       {videoPath && (
-        <Box sx={{ "&:hover": { cursor: "pointer" } }}>
+        <Box sx={{ "&:hover": { cursor: "pointer" } }} className="inner-icons">
           <video
             width="100%"
             // height="auto"
@@ -196,7 +210,7 @@ const PostWidget = ({
           </video>
         </Box>
       )}
-      <FlexBetween mt="0.25rem">
+      <FlexBetween mt="0.25rem" className="inner-icons">
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">
             <IconButton onClick={patchLike}>
@@ -261,7 +275,12 @@ const PostWidget = ({
       </FlexBetween>
 
       {isComments && (
-        <Box mt="0.5rem" border={`3px solid ${main}`} borderRadius={`5px`}>
+        <Box
+          mt="0.5rem"
+          border={`3px solid ${main}`}
+          borderRadius={`5px`}
+          className="inner-icons"
+        >
           <FlexBetween>
             <Typography
               variant="h5"
@@ -366,7 +385,7 @@ const PostWidget = ({
           {/* <Divider /> */}
         </Box>
       )}
-    </WidgetWrapper>
+    </SpecialWidgetWrapper>
   );
 };
 

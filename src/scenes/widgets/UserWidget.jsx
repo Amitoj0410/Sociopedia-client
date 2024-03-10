@@ -3,6 +3,7 @@ import {
   EditOutlined,
   LocationOnOutlined,
   WorkOutlineOutlined,
+  CalendarMonth,
 } from "@mui/icons-material";
 import { Box, Typography, Divider, useTheme, IconButton } from "@mui/material";
 import UserImage from "components/UserImage";
@@ -51,7 +52,31 @@ const UserWidget = ({ userId, picturePath }) => {
     viewedProfile,
     impressions,
     friends,
+    createdAt,
   } = user;
+
+  const formatJoinDate = (isoDateString) => {
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    const date = new Date(isoDateString);
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+
+    return `Joined ${month} ${year}`;
+  };
 
   return (
     <WidgetWrapper>
@@ -100,9 +125,13 @@ const UserWidget = ({ userId, picturePath }) => {
           <LocationOnOutlined fontSize="large" sx={{ color: main }} />
           <Typography color={medium}>{location}</Typography>
         </Box>
-        <Box display="flex" alignItems="center" gap="1rem">
+        <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
           <WorkOutlineOutlined fontSize="large" sx={{ color: main }} />
           <Typography color={medium}>{occupation}</Typography>
+        </Box>
+        <Box display="flex" alignItems="center" gap="1rem">
+          <CalendarMonth fontSize="large" sx={{ color: main }} />
+          <Typography color={medium}>{formatJoinDate(createdAt)}</Typography>
         </Box>
       </Box>
 
