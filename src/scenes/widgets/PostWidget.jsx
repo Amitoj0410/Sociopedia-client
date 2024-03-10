@@ -324,20 +324,24 @@ const PostWidget = ({
                         <Box
                           sx={{
                             display: "inline",
-                            color: palette.primary.main,
-                            "&:hover": {
-                              cursor: "pointer",
-                              color: palette.primary.light,
-                            },
+                            // color: palette.primary.main,
+                            // "&:hover": {
+                            //   cursor: "pointer",
+                            //   // color: palette.primary.light,
+                            // },
                           }}
                           // onClick={() => {
                           //   navigate(`/profile/${postUserId}`);
                           // }}
                         >
-                          <FindUserById comment={comment} />
+                          <FindUserById
+                            userId={comment.userId}
+                            commentTime={comment.timestamp}
+                          />
                         </Box>
                         <ArrowRight />
-                        <Box>{showPart2(comment)}</Box>
+                        {/* <Box>{showPart2(comment)}</Box> */}
+                        <Box>{comment.body}</Box>
                       </FlexBetween>
                     </Typography>
                   </ListItem>
