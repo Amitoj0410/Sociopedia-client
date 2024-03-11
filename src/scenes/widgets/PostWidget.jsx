@@ -25,8 +25,8 @@ import {
 import FindUserById from "components/FindUserById";
 import FlexBetween from "components/FlexBetween";
 import Friend from "components/Friend";
+import IsCommentLiked from "components/IsCommentLiked";
 import SpecialWidgetWrapper from "components/SpecialWidgetWrapper";
-// import WidgetWrapper from "components/WidgetWrapper";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "state";
@@ -44,9 +44,6 @@ const PostWidget = ({
   comments,
 }) => {
   const [isComments, setIsComments] = useState(false);
-  // const [allComments, setAllComments] = useState([]);
-  // var allComents = [];
-  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
   const loggedInUserId = useSelector((state) => state.user._id);
@@ -56,6 +53,7 @@ const PostWidget = ({
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const splittedDesc = description.split("\n");
+
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const primary = palette.primary.main;
@@ -63,6 +61,22 @@ const PostWidget = ({
   const patchLike = async () => {
     const response = await fetch(
       `https://socialpedia-serverr.onrender.com/posts/${postId}/like`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: loggedInUserId }),
+      }
+    );
+    const updatedPost = await response.json();
+    dispatch(setPost({ post: updatedPost }));
+  };
+
+  const patchCommentLike = async (commId) => {
+    const response = await fetch(
+      `https://socialpedia-serverr.onrender.com/posts/${postId}/comment/${commId}/like`,
       {
         method: "PATCH",
         headers: {
@@ -94,9 +108,11 @@ const PostWidget = ({
     );
     const updatedPost = await response.json();
     dispatch(setPost({ post: updatedPost }));
+
+    // Update local state with the new comment if necessary
+    setNewComment("");
   };
 
-  // Share Icon functionality
   const handleMoreIconClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -105,7 +121,6 @@ const PostWidget = ({
     setAnchorEl(null);
   };
 
-  // later
   const handleWhatsAppShare = () => {
     const shareableLink = `https://socialpedia-serverr.onrender.com/assets/${picturePath}`;
     const shareableText = `${description}`;
@@ -115,30 +130,14 @@ const PostWidget = ({
   };
 
   const handleInstagramShare = () => {
-    // console.log("hello");
-    // const shareableLink = `https://socialpedia-serverr.onrender.com/assets/${encodeURIComponent(
-    //   picturePath
-    // )}`;
-    // const shareableText = encodeURIComponent(description);
-    // const instagramLink = `https://www.instagram.com/intent/post/?caption=${shareableText}&url=${shareableLink}`;
-    // window.open(instagramLink, "_blank");
+    // Handle Instagram share logic
   };
 
   const showPart2 = (currentComment) => {
     var resultArray = currentComment.split(":");
-
-    // resultArray will now contain two elements, with the string broken at the first ':'
-    // var firstPart = resultArray[0];
     var secondPart = resultArray.slice(1).join(":");
     return secondPart;
   };
-
-  // const handleOuterClick = (event) => {
-  //   // Check if the click occurred outside the inner icons or components
-  //   if (!event.target.closest(".inner-icons")) {
-  //     alert("Hello");
-  //   }
-  // };
 
   return (
     <SpecialWidgetWrapper
@@ -146,7 +145,6 @@ const PostWidget = ({
       maxWidth={"35rem"}
       sx={{ wordWrap: "break-word" }}
       overflow={"hidden"}
-      // onClick={handleOuterClick}
     >
       <Box className="inner-icons">
         <Friend
@@ -155,7 +153,6 @@ const PostWidget = ({
           subtitle={location}
           userPicturePath={userPicturePath}
           postId={postId}
-          // className="inner-icons"
         />
       </Box>
       <Typography
@@ -164,8 +161,6 @@ const PostWidget = ({
           mt: "1rem",
           fontSize: "1rem",
           overflow: "hidden",
-          // wordWrap: "break-word",
-          // whiteSpace: "normal",
         }}
         className="inner-icons"
       >
@@ -182,7 +177,6 @@ const PostWidget = ({
           height="auto"
           alt="post"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          // src={`https://socialpedia-serverr.onrender.com/assets/${picturePath}`}
           src={picturePath}
           className="inner-icons"
         />
@@ -191,21 +185,15 @@ const PostWidget = ({
         <Box sx={{ "&:hover": { cursor: "pointer" } }} className="inner-icons">
           <video
             width="100%"
-            // height="auto"
             controls
             style={{
               borderRadius: "0.75rem",
               marginTop: "0.75rem",
               maxHeight: "25rem",
               objectFit: "cover",
-              // ":hover": { cursor: "pointer" },
             }}
           >
-            <source
-              // src={`https://socialpedia-serverr.onrender.com/assets/${videoPath}`}
-              src={videoPath}
-              type="video/mp4"
-            />
+            <source src={videoPath} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </Box>
@@ -213,7 +201,14 @@ const PostWidget = ({
       <FlexBetween mt="0.25rem" className="inner-icons">
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">
-            <IconButton onClick={patchLike}>
+            <IconButton
+              onClick={patchLike}
+              sx={{
+                "&:hover": {
+                  backgroundColor: palette.primary.light,
+                },
+              }}
+            >
               {isLiked ? (
                 <FavoriteOutlined sx={{ color: primary }} />
               ) : (
@@ -231,7 +226,6 @@ const PostWidget = ({
           </FlexBetween>
         </FlexBetween>
 
-        {/* Share icon */}
         <>
           <IconButton
             sx={{ p: "0.6rem" }}
@@ -290,65 +284,71 @@ const PostWidget = ({
               Comments
             </Typography>
             <IconButton
-              sx={{ mr: "0.5rem" }}
+              sx={{
+                mr: "0.5rem",
+              }}
               onClick={() => setIsComments(!isComments)}
             >
               <Close />
             </IconButton>
           </FlexBetween>
           <Divider />
-          {/* <List sx={{ maxHeight: "12rem", overflowY: "auto" }}>
-            {Array.isArray(comments) &&
-              comments.map((comment, index) => (
-                <>
-                  <ListItem key={index}>
-                    <KeyboardArrowRight />
-                    <Typography>
-                      <Box sx={{ display: "inline" }}>{showPart1(comment)}</Box>
-                      <Box sx={{ display: "inline" }}> :- </Box>
-                      <Box sx={{ display: "inline" }}>{showPart2(comment)}</Box>
-                    </Typography>
-                  </ListItem>
-                  <Divider />
-                </>
-              ))}
-          </List> */}
-          <List sx={{ maxHeight: "12rem", overflowY: "auto" }}>
-            {Array.isArray(comments) &&
-              comments.map((comment, index) => (
-                <React.Fragment key={index}>
-                  <ListItem>
-                    {/* <KeyboardArrowRight /> */}
-                    <Typography component="div">
-                      <FlexBetween>
-                        <Box
-                          sx={{
-                            display: "inline",
-                            // color: palette.primary.main,
-                            // "&:hover": {
-                            //   cursor: "pointer",
-                            //   // color: palette.primary.light,
-                            // },
-                          }}
-                          // onClick={() => {
-                          //   navigate(`/profile/${postUserId}`);
-                          // }}
-                        >
-                          <FindUserById
-                            userId={comment.userId}
-                            commentTime={comment.timestamp}
-                          />
-                        </Box>
-                        <ArrowRight />
-                        {/* <Box>{showPart2(comment)}</Box> */}
-                        <Box>{comment.body}</Box>
-                      </FlexBetween>
-                    </Typography>
-                  </ListItem>
-                  {index < comments.length - 1 && <Divider />}
-                </React.Fragment>
-              ))}
-          </List>
+          <FlexBetween>
+            <List
+              sx={{
+                maxHeight: "12rem",
+                overflowY: "auto",
+                width: "100%",
+              }}
+            >
+              {Array.isArray(comments) &&
+                comments.map((comment, index) => (
+                  <FlexBetween key={index} sx={{ mb: "0.5rem" }}>
+                    <ListItem>
+                      <Typography component="div">
+                        <FlexBetween>
+                          <Box sx={{ display: "flex" }}>
+                            <Box>
+                              <FindUserById
+                                userId={comment.userId}
+                                commentTime={comment.timestamp}
+                              />
+                            </Box>
+                            <ArrowRight sx={{ mt: "0.1rem" }} />
+                            <Box sx={{ mt: "0.1rem" }}>{comment.body}</Box>
+                          </Box>
+                        </FlexBetween>
+                      </Typography>
+                    </ListItem>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "column",
+                        mr: "1rem",
+                      }}
+                    >
+                      <IconButton
+                        sx={{
+                          "&:hover": {
+                            backgroundColor: palette.primary.light,
+                          },
+                        }}
+                        onClick={() => patchCommentLike(comment.id)}
+                      >
+                        <IsCommentLiked comment={comment} />
+                      </IconButton>
+                      <Typography>
+                        {comment.likes ? Object.keys(comment.likes).length : 0}
+                      </Typography>
+                    </Box>
+                    {index < comments.length - 1 && <Divider />}
+                    {/* <Divider /> */}
+                  </FlexBetween>
+                ))}
+            </List>
+          </FlexBetween>
           <Box display="flex">
             <TextField
               label="Add a comment"
@@ -356,7 +356,6 @@ const PostWidget = ({
               variant="outlined"
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
-              // onKeyPress={(e) => e.key === "Enter" && handleCommentSubmit()}
               onKeyDown={(e) =>
                 e.key === "Enter" &&
                 newComment.length > 0 &&
@@ -379,14 +378,11 @@ const PostWidget = ({
                     height: "2.5rem",
                     backgroundColor: palette.primary.main,
                     borderRadius: "0.5rem",
-                    mb: "0.2rem",
-                    // "&:hover": { backgroundColor: palette.primary.main },
                   }}
                 />
               </IconButton>
             </Box>
           </Box>
-          {/* <Divider /> */}
         </Box>
       )}
     </SpecialWidgetWrapper>

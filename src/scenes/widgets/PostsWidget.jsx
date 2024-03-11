@@ -49,7 +49,9 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const visiblePostsData = posts.slice(0, visiblePosts);
+  const visiblePostsData = Array.isArray(posts)
+    ? posts.slice(0, visiblePosts)
+    : [];
   const handleLoadMore = () => {
     setVisiblePosts((prevVisiblePosts) => prevVisiblePosts + 5);
   };
